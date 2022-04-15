@@ -37,6 +37,11 @@ const AddBoardContainer = styled.div`
     flex-basis: 290px;
     min-width: 290px;
 `;
+
+const H1 = styled.h1`
+    float: left;
+    line-height: 25px;
+`;
   
 export {
     KanbanWrapper,
@@ -44,4 +49,5 @@ export {
     BoardsContainer,
     Boards,
     AddBoardContainer,
+    H1,
 };

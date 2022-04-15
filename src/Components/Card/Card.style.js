@@ -18,6 +18,7 @@ const CardWrapper = styled.div`
 	gap: 10px;
 	background-color: #fff;
 	border-radius: 10px;
+	cursor: pointer;
 
 	&:hover ${Menu} {
 		opacity: 1;

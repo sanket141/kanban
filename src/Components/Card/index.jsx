@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import { MenuIcon } from "../../svgs";
 import Dropdown from "../Dropdown";
+import CardInfo from "../CardInfo";
 import {
     CardWrapper,
     Menu,
@@ -14,28 +15,38 @@ function Card(props) {
 	const { id, title } = card;
 
 	const [showDropdown, setShowDropdown] = useState(false);
+	const [showModal, setShowModal] = useState(false);
 
 	return (
-		<CardWrapper
-			draggable
-			onDragEnd={() => dragEnd(boardId, id)}
-			onDragEnter={() => dragEnter(boardId, id)}
-		>
-			<Title>{title}</Title>
-			<Menu onClick={(event) => {
-				event.stopPropagation();
-				setShowDropdown(true);
-			}}>
-				<MenuIcon />
-				{showDropdown && (
-					<Dropdown onClose={() => setShowDropdown(false)}>
-						<p onClick={() => removeCard(boardId, id)}>
-							Delete Card
-						</p>
-					</Dropdown>
-				)}
-			</Menu>
-		</CardWrapper>
+		<React.Fragment>
+			<CardWrapper
+				draggable
+				onDragEnd={() => dragEnd(boardId, id)}
+				onDragEnter={() => dragEnter(boardId, id)}
+				onClick={() => setShowModal(true)}
+			>
+				<Title>{title}</Title>
+				<Menu onClick={(event) => {
+					event.stopPropagation();
+					setShowDropdown(true);
+				}}>
+					<MenuIcon />
+					{showDropdown && (
+						<Dropdown onClose={() => setShowDropdown(false)}>
+							<p onClick={() => removeCard(boardId, id)}>
+								Delete Card
+							</p>
+						</Dropdown>
+					)}
+				</Menu>
+			</CardWrapper>
+			{showModal && (
+				<CardInfo
+					onClose={() => setShowModal(false)}
+					title={title}
+				/>
+			)}
+		</React.Fragment>
 	);
 }
 

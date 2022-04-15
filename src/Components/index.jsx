@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import Board from "./Board";
 import AddButton from "./AddButton";
+import SearchBar from "./SearchBar";
 import {
     KanbanWrapper,
     Header,
     BoardsContainer,
     Boards,
     AddBoardContainer,
+    H1,
 } from "./Kanban.sytle";
 
 function Kanban() {
@@ -90,12 +92,17 @@ function Kanban() {
         if (targetBoardIndex < 0) return;
 
         targetCardIndex = boards[targetBoardIndex]?.cards?.findIndex((item) => item.id === targetCard.cardId);
-        if (targetCardIndex < 0) return;
 
         const tempBoards = [...boards];
         const sourceCard = tempBoards[sourceBoardIndex].cards[sourceCardIndex];
         tempBoards[sourceBoardIndex].cards.splice(sourceCardIndex, 1);
-        tempBoards[targetBoardIndex].cards.splice(targetCardIndex, 0, sourceCard);
+
+        if (targetCardIndex < 0) {
+            tempBoards[targetBoardIndex].cards.push(sourceCard);
+        } else {
+            tempBoards[targetBoardIndex].cards.splice(targetCardIndex, 0, sourceCard);
+        }
+
         setBoards(tempBoards);
 
         setTargetCard({
@@ -107,7 +114,8 @@ function Kanban() {
     return (
         <KanbanWrapper>
             <Header>
-                <h1>Kanban Board</h1>
+                <H1>Kanban Board</H1>
+                <SearchBar boards={boards} />
             </Header>
             <BoardsContainer>
                 <Boards>
